@@ -1,5 +1,0 @@
-# Ignore venv
-venv/
-
-# Ignore pyc files
-*.pyc
