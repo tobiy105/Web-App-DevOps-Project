@@ -9,6 +9,7 @@ Welcome to the Web App DevOps Project repo! This application allows you to effic
 - [Technology Stack](#technology-stack)
 - [Contributors](#contributors)
 - [Feature Reversion](#feature-reversion)
+- [Dockerization](#dockerization)
 - [License](#license)
 
 ## Features
@@ -79,6 +80,48 @@ Additionally, the version control history and this documentation serve as valuab
 As our project evolves, we prioritize adaptability and efficient development processes, ensuring that we can easily respond to changing requirements and incorporate previously developed features when necessary.
 
 We encourage the team to keep an eye on project discussions and requirements, as the "delivery_date" feature may find its way back into our application in future iterations.
+
+## Dockerization
+
+### Containerization Process
+
+We have containerized our application using Docker. Below are the steps taken to build the application's Dockerfile:
+
+#### Step 1: Base Image Selection
+We use an official Python runtime as the parent image, specifically `python:3.8-slim`.
+
+#### Step 2: Set the Working Directory
+We set the working directory in the container to `/app`, a common practice for web applications.
+
+#### Step 3: Copy Application Files
+We copy the contents of our local directory into the container's `/app` directory to ensure that our application code and files are available within the container.
+
+#### Step 4: Install System Dependencies and ODBC Driver
+We update the package list and install necessary system dependencies, including the ODBC driver, to enable database connectivity.
+
+#### Step 5: Install pip and setuptools
+We upgrade pip and setuptools, which are required for managing Python packages.
+
+#### Step 6: Install Python Packages from requirements.txt
+We install Python packages specified in the `requirements.txt` file, which contains all the necessary packages for running the application successfully.
+
+#### Step 7: Expose Port
+We expose port 5000 to make the Flask application accessible from outside the container.
+
+#### Step 8: Define Startup Command
+We specify the command to execute when the container launches, which is to run the `app.py` file using Python.
+
+### Docker Commands
+
+Throughout the project, we have used various Docker commands for building, running containers, tagging, and pushing to Docker Hub. Here are some examples and explanations for each command:
+
+- `docker build -t my-flask-app .`: Builds a Docker image from the Dockerfile with the tag `my-flask-app`. The `.` specifies that the Dockerfile is in the current directory.
+
+- `docker run -p 8080:5000 my-flask-app`: Runs a container from the `my-flask-app` image, mapping port 8080 on the host to port 5000 in the container.
+
+- `docker tag my-flask-app my-docker-hub-username/my-flask-app:v1`: Tags the `my-flask-app` image with a version `v1` and associates it with your Docker Hub repository.
+
+- `docker push my-docker-hub-username/my-flask-app:v1`: Pushes the tagged image to your Docker Hub repository for sharing and deployment.
 
 ## License
 
