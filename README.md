@@ -8,6 +8,7 @@ Welcome to the Web App DevOps Project repo! This application allows you to effic
 - [Getting Started](#getting-started)
 - [Technology Stack](#technology-stack)
 - [Contributors](#contributors)
+- [Feature Reversion](#feature-reversion)
 - [License](#license)
 
 ## Features
@@ -56,6 +57,28 @@ To run the application, you simply need to run the `app.py` script in this repos
 ## Contributors 
 
 - [Maya Iuga]([https://github.com/yourusername](https://github.com/maya-a-iuga))
+
+## Feature Reversion
+
+While we initially added the "delivery_date" column to enhance our delivery tracking functionality, it has been determined that, for the current phase of our project, this feature is no longer necessary. However, software development is an evolving process, and there may be future requirements or scenarios where the "delivery_date" feature becomes relevant again.
+
+### How the "delivery_date" Feature Works
+
+The "delivery_date" feature, when active, allowed us to:
+
+- Capture and store delivery date information for orders in our Azure SQL Database.
+- Display delivery dates alongside order details in the user interface, providing valuable insights into our delivery process.
+- Ensure data accuracy and completeness with required fields, date restrictions, and card number validation.
+
+### Future Utilization
+
+While the "delivery_date" feature has been reverted for now, it remains well-documented within our codebase. Should the need for this feature arise again in the future, developers can refer to the existing code and documentation to quickly reintegrate it into our application.
+
+Additionally, the version control history and this documentation serve as valuable references for understanding the feature's previous implementation.
+
+As our project evolves, we prioritize adaptability and efficient development processes, ensuring that we can easily respond to changing requirements and incorporate previously developed features when necessary.
+
+We encourage the team to keep an eye on project discussions and requirements, as the "delivery_date" feature may find its way back into our application in future iterations.
 
 ## License
 
