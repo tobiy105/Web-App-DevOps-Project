@@ -11,6 +11,7 @@ Welcome to the Web App DevOps Project repo! This application allows you to effic
 - [Feature Reversion](#feature-reversion)
 - [Dockerization](#dockerization)
 - [Networking Services with Terraform](#Networking-Services-with-Terraform)
+- [Provisioning an Azure Kubernetes Service (AKS) Cluster](#Provisioning-an-Azure-Kubernetes-Service-(AKS)-Cluster)
 - [License](#license)
 
 ## Features
@@ -171,6 +172,40 @@ Throughout the networking module, we utilize input and output variables to confi
 - `aks_nsg_id`: Stores the ID of the Network Security Group (NSG) for security rule enforcement.
 
 By documenting these details and variables, we ensure that the networking module's configuration and purpose are well-understood, facilitating collaboration and maintenance as the project evolves.
+
+## Provisioning an Azure Kubernetes Service (AKS) Cluster
+
+This section provides an overview of the process of provisioning an Azure Kubernetes Service (AKS) cluster using Infrastructure as Code (IaC). We use Terraform to automate the provisioning of the AKS cluster and its associated resources.
+
+### Steps to Provision the AKS Cluster
+
+1. **Initialize Your Terraform Project**: Ensure that you have initialized your Terraform project with a descriptive name, such as aks-terraform. Organize your project into two Terraform modules: one for networking services and another for the AKS cluster itself.
+
+2. **Define Networking Services**: In the networking module, define essential networking resources required for the AKS cluster. These resources include Azure Resource Group, Virtual Network (VNet), subnets, and Network Security Group (NSG). Configure the NSG with inbound rules to allow traffic to kube-apiserver and SSH traffic, limited to your public IP address.
+
+3. **Output Variables for Networking Module**: Create output variables within the networking module to capture information about the provisioned networking resources. These output variables will be used as input for the cluster module.
+
+4. **Initialize the Networking Module**: Ensure that you initialize the networking module to make it ready for use in your main project.
+
+5. **Define AKS Cluster**: In the cluster module, define the AKS cluster itself. Specify details such as the cluster name, location, DNS prefix, Kubernetes version, node pool settings, and service principal credentials using input variables. Use the output variables from the networking module to configure networking resources for the AKS cluster.
+
+6. **Output Variables for Cluster Module**: Create output variables within the cluster module to capture essential information about the provisioned AKS cluster, including its name, ID, and kubeconfig file.
+
+7. **Initialize the Cluster Module**: Ensure that you initialize the cluster module to prepare it for use within your main project.
+
+8. **Apply Terraform Configuration**: Run `terraform apply` to apply the Terraform configuration. This command will create the AKS cluster and networking resources based on the defined specifications.
+
+9. **Access the AKS Cluster**: Utilize the captured kubeconfig file to interact with and manage the provisioned AKS cluster using `kubectl`. You can access and manage your cluster, deploy applications, and scale resources as needed.
+
+### Input and Output Variables
+
+Throughout the provisioning process, input and output variables play a crucial role. These variables enable you to customize your AKS cluster's configuration and capture essential information about the provisioned resources.
+
+- **Input Variables**: Input variables allow you to customize various aspects of the AKS cluster and networking resources. Key input variables include the cluster name, location, DNS prefix, Kubernetes version, service principal credentials, and networking details.
+
+- **Output Variables**: Output variables capture information about the provisioned resources. They include the AKS cluster name, ID, kubeconfig file, VNet ID, subnet IDs, and other networking-related details. These outputs can be used for further project configurations or interactions with the cluster.
+
+Thoroughly documenting these steps and variables ensures transparency, reproducibility, and ease of maintenance for your AKS cluster provisioning process.
 
 ## License
 
