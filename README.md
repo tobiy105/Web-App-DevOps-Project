@@ -10,6 +10,7 @@ Welcome to the Web App DevOps Project repo! This application allows you to effic
 - [Contributors](#contributors)
 - [Feature Reversion](#feature-reversion)
 - [Dockerization](#dockerization)
+- [Networking Services with Terraform](#Networking-Services-with-Terraform)
 - [License](#license)
 
 ## Features
@@ -22,7 +23,7 @@ Welcome to the Web App DevOps Project repo! This application allows you to effic
   
 ![Screenshot 2023-08-31 at 15 49 08](https://github.com/maya-a-iuga/Web-App-DevOps-Project/assets/104773240/d92a045d-b568-4695-b2b9-986874b4ed5a)
 
-- **Add New Order:** Fill out a user-friendly form to add new orders to the system with necessary information.
+- **Add New Order:** Fill out a user-friendly form to add new orders to the system with the necessary information.
   
 ![Screenshot 2023-08-31 at 15 49 26](https://github.com/maya-a-iuga/Web-App-DevOps-Project/assets/104773240/83236d79-6212-4fc3-afa3-3cee88354b1a)
 
@@ -32,7 +33,7 @@ Welcome to the Web App DevOps Project repo! This application allows you to effic
 
 ### Prerequisites
 
-For the application to succesfully run, you need to install the following packages:
+For the application to successfully run, you need to install the following packages:
 
 - flask (version 2.2.2)
 - pyodbc (version 4.0.39)
@@ -99,8 +100,8 @@ We copy the contents of our local directory into the container's `/app` director
 #### Step 4: Install System Dependencies and ODBC Driver
 We update the package list and install necessary system dependencies, including the ODBC driver, to enable database connectivity.
 
-#### Step 5: Install pip and setuptools
-We upgrade pip and setuptools, which are required for managing Python packages.
+#### Step 5: Install pip and setup tools
+We upgrade pip and setup tools, which are required for managing Python packages.
 
 #### Step 6: Install Python Packages from requirements.txt
 We install Python packages specified in the `requirements.txt` file, which contains all the necessary packages for running the application successfully.
@@ -122,6 +123,54 @@ Throughout the project, we have used various Docker commands for building, runni
 - `docker tag my-flask-app my-docker-hub-username/my-flask-app:v1`: Tags the `my-flask-app` image with a version `v1` and associates it with your Docker Hub repository.
 
 - `docker push my-docker-hub-username/my-flask-app:v1`: Pushes the tagged image to your Docker Hub repository for sharing and deployment.
+
+## Networking Services with Terraform
+
+Thoroughly documenting the process of defining networking services using Infrastructure as Code (IaC) is crucial for understanding and maintaining your project. This section provides an overview of the steps taken to define networking resources using Terraform within this project, including details on each resource, its purpose, and any dependencies. It also covers the input and output variables used throughout the networking module.
+
+### Terraform Networking Module
+
+In this project, we use Terraform to provide Azure networking services for an Azure Kubernetes Service (AKS) cluster. These services include:
+
+1. **Azure Resource Group**:
+   - Purpose: To logically group Azure resources.
+   - Variable: `resource_group_name`
+
+2. **Virtual Network (VNet)**:
+   - Purpose: To create a Virtual Network that will house our AKS cluster.
+   - Variable: `vnet_address_space`
+
+3. **Control Plane Subnet**:
+   - Purpose: A subnet within the VNet dedicated to the control plane components of the AKS cluster.
+   - Address Prefix: 10.0.1.0/24
+
+4. **Worker Node Subnet**:
+   - Purpose: A subnet within the VNet for the worker nodes of the AKS cluster.
+   - Address Prefix: 10.0.2.0/24
+
+5. **Network Security Group (NSG)**:
+   - Purpose: To control inbound and outbound traffic to resources within the VNet.
+   - Inbound Rules: Allow traffic to kube-apiserver (port 443) and inbound SSH traffic (port 22) from the specified public IP address.
+   
+### Input and Output Variables
+
+Throughout the networking module, we utilize input and output variables to configure and communicate with the module.
+
+**Input Variables**:
+
+- `resource_group_name`: Represents the name of the Azure Resource Group where networking resources will be deployed.
+- `location`: Specifies the Azure region where networking resources will be deployed.
+- `vnet_address_space`: Specifies the address space for the Virtual Network (VNet).
+
+**Output Variables**:
+
+- `vnet_id`: Stores the ID of the created Virtual Network (VNet) for use in other modules.
+- `control_plane_subnet_id`: Holds the ID of the control plane subnet within the VNet.
+- `worker_node_subnet_id`: Stores the ID of the worker node subnet within the VNet.
+- `networking_resource_group_name`: Provides the name of the Azure Resource Group for networking resources.
+- `aks_nsg_id`: Stores the ID of the Network Security Group (NSG) for security rule enforcement.
+
+By documenting these details and variables, we ensure that the networking module's configuration and purpose are well-understood, facilitating collaboration and maintenance as the project evolves.
 
 ## License
 
