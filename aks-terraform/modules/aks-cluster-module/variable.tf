@@ -1,5 +1,3 @@
-# modules/aks-cluster-module/variables.tf
-
 # Input variable for the AKS cluster name
 variable "aks_cluster_name" {
   description = "Name of the AKS cluster to create"
@@ -45,5 +43,20 @@ variable "resource_group_name" {
 
 variable "vnet_id" {
   description = "ID of the Virtual Network (VNet) created by the networking module"
+  type        = string
+}
+
+variable "control_plane_subnet_id" {
+  description = "ID of the control plane subnet within the VNet"
+  type        = string
+}
+
+variable "worker_node_subnet_id" {
+  description = "ID of the worker node subnet within the VNet"
+  type        = string
+}
+
+variable "aks_nsg_id" {
+  description = "ID of the Network Security Group (NSG)"
   type        = string
 }
