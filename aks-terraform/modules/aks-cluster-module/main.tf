@@ -12,10 +12,9 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     name       = "default"
     node_count = 1
     vm_size    = "Standard_DS2_v2"
-  }
-
-  identity {
-    type = "ServicePrincipal"
+    enable_auto_scaling = true
+    min_count = 1
+    max_count = 3
   }
 
   service_principal {
@@ -23,19 +22,4 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     client_secret = var.service_principal_secret
   }
 
-  network_profile {
-    network_plugin = "azure"
-    load_balancer_sku = "standard"
-  }
-}
-
-# Output variables to retrieve information about the AKS cluster
-output "aks_cluster_id" {
-  description = "ID of the AKS cluster"
-  value       = azurerm_kubernetes_cluster.aks_cluster.id
-}
-
-output "aks_cluster_kube_config" {
-  description = "Kubeconfig for the AKS cluster"
-  value       = azurerm_kubernetes_cluster.aks_cluster.kube_config_raw
 }
