@@ -10,8 +10,10 @@ Welcome to the Web App DevOps Project repo! This application allows you to effic
 - [Contributors](#contributors)
 - [Feature Reversion](#feature-reversion)
 - [Dockerization](#dockerization)
-- [Networking Services with Terraform](#Networking-Services-with-Terraform)
-- [Provisioning an Azure Kubernetes Service (AKS) Cluster](#Provisioning-an-Azure-Kubernetes-Service-(AKS)-Cluster)
+- [Networking Services with Terraform](#networking-services-with-terraform)
+- [Provisioning an Azure Kubernetes Service (AKS) Cluster](#provisioning-an-azure-kubernetes-service-aks-cluster)
+- [Kubernetes Deployment](#kubernetes-deployment)
+- [Distributing the Application](#distributing-the-application)
 - [License](#license)
 
 ## Features
@@ -152,7 +154,7 @@ In this project, we use Terraform to provide Azure networking services for an Az
 5. **Network Security Group (NSG)**:
    - Purpose: To control inbound and outbound traffic to resources within the VNet.
    - Inbound Rules: Allow traffic to kube-apiserver (port 443) and inbound SSH traffic (port 22) from the specified public IP address.
-   
+
 ### Input and Output Variables
 
 Throughout the networking module, we utilize input and output variables to configure and communicate with the module.
@@ -197,15 +199,51 @@ This section provides an overview of the process of provisioning an Azure Kubern
 
 9. **Access the AKS Cluster**: Utilize the captured kubeconfig file to interact with and manage the provisioned AKS cluster using `kubectl`. You can access and manage your cluster, deploy applications, and scale resources as needed.
 
-### Input and Output Variables
+## Kubernetes Deployment
 
-Throughout the provisioning process, input and output variables play a crucial role. These variables enable you to customize your AKS cluster's configuration and capture essential information about the provisioned resources.
+### Deployment and Service Manifests
 
-- **Input Variables**: Input variables allow you to customize various aspects of the AKS cluster and networking resources. Key input variables include the cluster name, location, DNS prefix, Kubernetes version, service principal credentials, and networking details.
+We have created Kubernetes Deployment and Service manifests to deploy your containerized web application onto the Terraform-provisioned AKS cluster. Here's an overview of these manifests:
 
-- **Output Variables**: Output variables capture information about the provisioned resources. They include the AKS cluster name, ID, kubeconfig file, VNet ID, subnet IDs, and other networking-related details. These outputs can be used for further project configurations or interactions with the cluster.
+#### Deployment Manifest (application-manifest.yaml)
 
-Thoroughly documenting these steps and variables ensures transparency, reproducibility, and ease of maintenance for your AKS cluster provisioning process.
+- Deployment Name: `flask-app-deployment`
+- Replicas: 2 (allowing for scalability and high availability)
+- Selector: Match labels with `app: flask-app` to identify pods managed by this deployment.
+- Container: Reference the container image hosted on Docker Hub.
+- Ports: Expose port 5000 for communication within the AKS cluster.
+- Deployment Strategy: RollingUpdate with maxUnavailable: 1 and maxSurge: 1 for seamless updates.
+
+#### Service Manifest
+
+- Service Name: `flask-app-service`
+- Selector: Match labels with `app: flask-app` to route internal communication.
+- Port Configuration: Use TCP protocol on port 80 for internal communication within the cluster, with the targetPort set to 5000.
+
+### Deployment Strategy
+
+We've chosen the RollingUpdate deployment strategy for its benefits in maintaining application availability during updates. This strategy allows us to deploy a new version of the application while ensuring that a maximum of one pod deploys at a time, and one pod becomes temporarily unavailable. This approach minimizes potential disruptions to user access and maintains service reliability.
+
+### Testing and Validation
+
+After deploying the application to the AKS cluster, we conducted rigorous testing and validation to ensure its functionality and reliability. Our testing process included:
+
+- Verification of pod and service statuses within the AKS cluster.
+- Functional testing of the web application, including all features such as order list viewing and order addition.
+- Validation of data accuracy and completeness, including required fields, date restrictions, and card number validation.
+
+Our testing procedures aimed to identify and address any issues promptly, ensuring a robust and dependable deployment.
+
+## Distributing the Application
+
+The application we've been developing is an internal tool designed for the company's employees and is not intended for external users. Given its internal nature, you can efficiently assess the deployment by performing port forwarding to a local machine. Here are the steps to follow:
+
+1. **Start by verifying the status and details of your pods and services within the AKS cluster. Ensure that the pods are running, and the services are correctly exposed within the cluster.
+
+2. Once you've confirmed the health of your pods and services, initiate port forwarding using the following command:
+
+   ```bash
+   kubectl port-forward <pod-name> 5000:5000
 
 ## License
 
