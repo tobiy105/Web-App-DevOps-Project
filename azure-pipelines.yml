@@ -14,7 +14,7 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'Docker Hub'
-    repository: 'https://github.com/tobiy105/Web-App-DevOps-Project'
+    repository: 'tobiy105/Web-App-DevOps-Project'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     tags: 'latest'
