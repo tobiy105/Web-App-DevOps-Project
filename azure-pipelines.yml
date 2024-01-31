@@ -11,6 +11,13 @@ pool:
 
 steps:
 - script: echo Hello, world!
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Docker Hub'
+    repository: 'https://github.com/tobiy105/Web-App-DevOps-Project'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: 'latest'
   displayName: 'Run a one-line script'
 
 - script: |
