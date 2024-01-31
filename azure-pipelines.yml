@@ -16,6 +16,6 @@ steps:
     containerRegistry: 'Docker Hub'
     repository: 'tobiy105/Web-App-DevOps-Project'
     command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+    Dockerfile: '**/dockerfile'
     tags: 'latest'
 
