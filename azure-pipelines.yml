@@ -19,3 +19,11 @@ steps:
     Dockerfile: '**/dockerfile'
     tags: 'latest'
 
+- task: KubernetesManifest@1
+  inputs:
+    action: 'deploy'
+    connectionType: 'azureResourceManager'
+    azureSubscriptionConnection: 'Oluwatobi Sobola DevOps(0ebbba45-beb2-4c3a-ae53-2fbb98fc09cc)'
+    azureResourceGroup: 'net-dev-aks-rg'
+    kubernetesCluster: 'new-my-aks-cluster'
+    manifests: 'application-manifest.yaml'
