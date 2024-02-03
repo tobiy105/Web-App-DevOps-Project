@@ -8,12 +8,22 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+  parallel: 1
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Docker Hub'
+    repository: 'tobiy105/Web-App-DevOps-Project'
+    command: 'buildAndPush'
+    Dockerfile: '**/dockerfile'
+    tags: 'latest'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: KubernetesManifest@1
+  inputs:
+    action: 'deploy'
+    connectionType: 'azureResourceManager'
+    azureSubscriptionConnection: 'Oluwatobi Sobola DevOps(0ebbba45-beb2-4c3a-ae53-2fbb98fc09cc)'
+    azureResourceGroup: 'net-dev-aks-rg'
+    kubernetesCluster: 'new-my-aks-cluster'
+    manifests: 'application-manifest.yaml'

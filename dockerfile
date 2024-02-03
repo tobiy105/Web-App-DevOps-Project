@@ -1,11 +1,17 @@
-# Use an official NGINX runtime as the base image
-FROM nginx:latest
+# Use an official Python runtime as the base image
+FROM python:3.8-slim
 
-# Expose port 80 for HTTP traffic
-EXPOSE 80
+# Set the working directory in the container
+WORKDIR /app
 
-# Copy your custom configuration (if any) to the NGINX configuration directory
-# COPY nginx.conf /etc/nginx/nginx.conf
+# Copy your application code to the container
+COPY . /app
 
-# Start NGINX when the container starts
-CMD ["nginx", "-g", "daemon off;"]
+# Install any necessary dependencies
+RUN pip install -r requirements.txt
+
+# Expose port 5000 for HTTP traffic
+EXPOSE 5000
+
+# Start your application on http://127.0.0.1:5000
+CMD ["python", "app.py"]
