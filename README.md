@@ -256,7 +256,7 @@ We use Metrics Explorer to visualize and analyze various metrics from our AKS cl
 
 #### Average Node CPU Usage
 
-![Average Node CPU Usage Chart](asserts/asserts/Node_CPU_Util.png)
+![Average Node CPU Usage Chart](asserts/Node_CPU_Util.png)
 
 - **Metrics Tracked**: This chart tracks the CPU usage of your AKS cluster's nodes.
 - **Significance**: Monitoring CPU usage helps us ensure efficient resource allocation and detect potential performance issues. A sudden spike in CPU usage may indicate a need for scaling or optimization.
@@ -270,7 +270,7 @@ We use Metrics Explorer to visualize and analyze various metrics from our AKS cl
 
 #### Used Disk Percentage
 
-![Used Disk Percentage Chart](asserts/asserts/Used-Disk-Per.png)
+![Used Disk Percentage Chart](asserts/Used-Disk-Per.png)
 
 - **Metrics Tracked**: This chart monitors disk usage by tracking the percentage of disk space being utilized.
 - **Significance**: Monitoring disk usage is critical to prevent storage-related issues. If the used disk percentage approaches 100%, it may lead to performance degradation or application failures.
