@@ -14,6 +14,7 @@ Welcome to the Web App DevOps Project repo! This application allows you to effic
 - [Provisioning an Azure Kubernetes Service (AKS) Cluster](#provisioning-an-azure-kubernetes-service-aks-cluster)
 - [Kubernetes Deployment](#kubernetes-deployment)
 - [Distributing the Application](#distributing-the-application)
+- [Monitoring Strategy for AKS Cluster](#monitoring-strategy-for-aks-cluster)
 - [License](#license)
 
 ## Features
@@ -244,6 +245,96 @@ The application we've been developing is an internal tool designed for the compa
 
    ```bash
    kubectl port-forward <pod-name> 5000:5000
+
+## Monitoring Strategy for AKS Cluster
+
+Monitoring your Azure Kubernetes Service (AKS) cluster is essential for ensuring its performance, reliability, and availability. We have implemented a comprehensive monitoring strategy that includes the following components:
+
+### Metrics Explorer Charts
+
+We use Metrics Explorer to visualize and analyze various metrics from our AKS cluster. Below are the specific charts we've configured and their significance:
+
+#### Average Node CPU Usage
+
+![Average Node CPU Usage Chart](asserts/asserts/Node_CPU_Util.png)
+
+- **Metrics Tracked**: This chart tracks the CPU usage of your AKS cluster's nodes.
+- **Significance**: Monitoring CPU usage helps us ensure efficient resource allocation and detect potential performance issues. A sudden spike in CPU usage may indicate a need for scaling or optimization.
+
+#### Average Pod Count
+
+![Average Pod Count Chart](asserts/Active_Pod_Count.png)
+
+- **Metrics Tracked**: This chart displays the average number of pods running in your AKS cluster.
+- **Significance**: It's a key metric for evaluating the cluster's capacity and workload distribution. Deviations from the average pod count may require scaling decisions.
+
+#### Used Disk Percentage
+
+![Used Disk Percentage Chart](asserts/asserts/Used-Disk-Per.png)
+
+- **Metrics Tracked**: This chart monitors disk usage by tracking the percentage of disk space being utilized.
+- **Significance**: Monitoring disk usage is critical to prevent storage-related issues. If the used disk percentage approaches 100%, it may lead to performance degradation or application failures.
+
+#### Bytes Read and Written per Second
+
+![Bytes Read and Written per Second Chart](asserts/Bytes-Read-and-Written-per-Sec.png)
+
+- **Metrics Tracked**: This chart provides insights into data I/O by monitoring the rate of bytes read and written per second.
+- **Significance**: Monitoring data I/O helps identify potential performance bottlenecks related to storage or network. A sudden increase in data transfer rates may require investigation.
+
+### Log Analytics
+
+We configure Log Analytics to capture and analyze various logs for in-depth insights. Here are the logs we analyze and their significance:
+
+#### Average Node CPU Usage Percentage per Minute
+
+- **Log Content**: This log captures node-level CPU usage at a granular level, with logs recorded per minute.
+- **Significance**: It allows us to track CPU performance trends and identify nodes with high CPU utilization, helping us allocate resources optimally.
+
+#### Average Node Memory Usage Percentage per Minute
+
+- **Log Content**: Similar to CPU usage, this log tracks node-level memory usage with logs recorded per minute.
+- **Significance**: Monitoring memory usage helps us detect memory-related performance concerns and efficiently allocate resources.
+
+#### Pods Counts with Phase
+
+- **Log Content**: This log provides information on the count of pods with different phases (e.g., Pending, Running, Terminating).
+- **Significance**: It offers insights into pod lifecycle management and workload distribution within the cluster, helping ensure balanced resource usage.
+
+#### Find Warning Value in Container Logs
+
+- **Log Content**: This configuration searches for warning values in container logs.
+- **Significance**: Proactively detecting issues or errors within containers enables prompt troubleshooting and issue resolution, maintaining application health.
+
+#### Monitoring Kubernetes Events
+
+- **Log Content**: This log configuration monitors Kubernetes events, including pod scheduling, scaling activities, and errors.
+- **Significance**: It helps track the overall health and stability of the cluster and ensures timely response to critical events.
+
+### Alerting Configuration
+
+We have set up alert rules to trigger alarms when specific conditions are met:
+
+- **Used Disk Percentage Exceeds 90%**
+
+  - **Alert Details**: This alert triggers when the used disk percentage in the AKS cluster exceeds 90%.
+  - **Significance**: Proactively detecting high disk usage helps us address potential performance degradation and service interruptions.
+
+  - **Alert Frequency**: Checks every 5 minutes.
+  - **Loopback Period**: 15 minutes.
+  - **Notification**: Email notifications are sent for timely response.
+
+- **CPU Usage Exceeds 80%**
+
+  - **Alert Details**: This alert triggers when CPU usage in the AKS cluster exceeds 80%.
+  - **Significance**: High CPU usage can lead to decreased application performance. This alert helps us optimize resource allocation.
+
+- **Memory Working Set Percentage Exceeds 80%**
+
+  - **Alert Details**: This alert triggers when the memory working set percentage in the AKS cluster exceeds 80%.
+  - **Significance**: High memory usage can impact cluster performance. This alert assists in addressing memory-related issues.
+
+By following these monitoring and alerting strategies, we ensure the optimal performance, reliability, and availability of our AKS cluster. In case of alarms triggering, we have predefined procedures and strategies to respond effectively and maintain operational efficiency.
 
 ## License
 
