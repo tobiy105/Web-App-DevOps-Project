@@ -62,7 +62,8 @@ To run the application, you simply need to run the `app.py` script in this repos
 
 ## Contributors 
 
-- [Maya Iuga]([https://github.com/yourusername](https://github.com/maya-a-iuga))
+- [Tobi Sobola](https://github.com/tobiy105)
+- [Maya Iuga](https://github.com/maya-a-iuga)
 
 ## Feature Reversion
 
@@ -87,6 +88,8 @@ As our project evolves, we prioritize adaptability and efficient development pro
 We encourage the team to keep an eye on project discussions and requirements, as the "delivery_date" feature may find its way back into our application in future iterations.
 
 ## Dockerization
+
+Containerization is an essential aspect of our project, as it allows us to encapsulate the application, its dependencies, and configurations into a portable container. Docker containers provide consistency in deployment environments, making it easier to ensure that the application runs consistently across different platforms and environments. This approach simplifies the deployment, scaling, and maintenance of our application.
 
 ### Containerization Process
 
@@ -202,6 +205,8 @@ This section provides an overview of the process of provisioning an Azure Kubern
 
 ## Kubernetes Deployment
 
+In addition to deploying our application using Kubernetes, we've also defined a Kubernetes Service to enable seamless access to our deployed application. The Kubernetes Service allows internal communication within the AKS cluster by routing traffic to the appropriate pods. In our case, it exposes port 80 for internal communication, ensuring that our application is easily accessible within the cluster.
+
 ### Deployment and Service Manifests
 
 We have created Kubernetes Deployment and Service manifests to deploy your containerized web application onto the Terraform-provisioned AKS cluster. Here's an overview of these manifests:
@@ -219,7 +224,7 @@ We have created Kubernetes Deployment and Service manifests to deploy your conta
 
 - Service Name: `flask-app-service`
 - Selector: Match labels with `app: flask-app` to route internal communication.
-- Port Configuration: Use TCP protocol on port 80 for internal communication within the cluster, with the targetPort set to 5000.
+- Port Configuration: Use TCP protocol on port 80 for internal communication within the cluster, with the target port set to 5000.
 
 ### Deployment Strategy
 
@@ -334,7 +339,61 @@ We have set up alert rules to trigger alarms when specific conditions are met:
   - **Alert Details**: This alert triggers when the memory working set percentage in the AKS cluster exceeds 80%.
   - **Significance**: High memory usage can impact cluster performance. This alert assists in addressing memory-related issues.
 
-By following these monitoring and alerting strategies, we ensure the optimal performance, reliability, and availability of our AKS cluster. In case of alarms triggering, we have predefined procedures and strategies to respond effectively and maintain operational efficiency.
+By following these monitoring and alerting strategies, we ensure the optimal performance, reliability, and availability of our AKS cluster. In case of alarms trigger, we have predefined procedures and strategies to respond effectively and maintain operational efficiency.
+
+## Azure Key Vault Setup
+
+Azure Key Vault plays a pivotal role in securing sensitive information within our application. It provides a secure and centralized location to store and manage secrets, keys, and certificates. By integrating our application with Azure Key Vault, we ensure that critical information such as database connection details and authentication tokens are safeguarded against unauthorized access. This enhances the overall security posture of our application.
+
+### Key Vault Configuration
+- **Key Vault Name**: Tobi Key Vault
+- **Permissions**: Ensure that the managed identity of your AKS cluster has been granted the necessary permissions for Key Vault access. Roles assigned may include:
+  - `Key Vault Contributor`: To manage Key Vault resources.
+  - `Key Vault Secret User`: To retrieve secrets.
+
+## Secrets Stored in Key Vault
+ Azure Key Vault securely stores various secrets that our application relies on for secure operation.
+ 
+### Application Secrets
+
+We have securely stored the following secrets in Azure Key Vault to protect the credentials required for the application to connect to the backend database:
+
+- **Secret Name: `ServerName`**
+  - **Usage**: This secret contains the server name or host of the backend database. It is used by the application to establish a connection to the database server. The server name is retrieved from Key Vault during runtime to ensure the security of the database connection.
+
+- **Secret Name: `ServerUsername`**
+  - **Usage**: The `ServerUsername` secret holds the username or login credentials required to access the database server. The application retrieves this username from Key Vault when authenticating with the database.
+
+- **Secret Name: `ServerPassword`**
+  - **Usage**: This secret stores the database server's password, which is necessary for secure access. The application fetches this password from Key Vault during runtime to ensure sensitive credentials are protected.
+
+- **Secret Name: `DatabaseName`**
+  - **Usage**: The `DatabaseName` secret contains the name of the specific database that the application needs to interact with. It is retrieved from Key Vault during application runtime to specify the target database.
+
+By storing these secrets in Azure Key Vault, we enhance the security of our application by keeping sensitive information separate from the codebase and ensuring secure retrieval when needed. This approach helps protect our database credentials from unauthorized access and potential security breaches.
+
+## AKS Integration with Key Vault
+
+### Managed Identity for AKS
+- **Managed Identity Name**: [Managed Identity Name]
+- **Role Assignment**: Ensure that the managed identity of your AKS cluster has been assigned the appropriate roles in Azure to interact with Key Vault. These roles include:
+  - `Key Vault Contributor`: To allow the AKS cluster to access Key Vault resources.
+  - `Managed Identity Operator`: To manage the managed identity.
+  - Other relevant roles for your specific scenario.
+
+### Integration Steps
+- Describe the process of setting up a managed identity for your AKS cluster.
+- Explain the steps taken to assign permissions to the managed identity, ensuring it has the necessary access to retrieve secrets from Azure Key Vault.
+
+## Application Code Modifications
+
+### Utilizing Managed Identity Credentials
+- Mention the modifications made to the application code to incorporate managed identity credentials for the secure retrieval of database connection details from Azure Key Vault.
+
+## UML Diagram
+![UML Diagram](asserts/UML.png)
+
+The UML diagram provides an overview of the architecture and relationships within our application. It illustrates how different components, such as the web application, database, and Key Vault, interact with each other to ensure the secure and efficient operation of our system. The diagram helps us visualize the structure of our application and understand the flow of data and control between its various parts.
 
 ## License
 
