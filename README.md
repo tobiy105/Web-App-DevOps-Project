@@ -7,7 +7,6 @@ Welcome to the Web App DevOps Project repo! This application allows you to effic
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Technology Stack](#technology-stack)
-- [Contributors](#contributors)
 - [Feature Reversion](#feature-reversion)
 - [Dockerization](#dockerization)
 - [Networking Services with Terraform](#networking-services-with-terraform)
@@ -15,6 +14,7 @@ Welcome to the Web App DevOps Project repo! This application allows you to effic
 - [Kubernetes Deployment](#kubernetes-deployment)
 - [Distributing the Application](#distributing-the-application)
 - [Monitoring Strategy for AKS Cluster](#monitoring-strategy-for-aks-cluster)
+- [Contributors](#contributors)
 - [License](#license)
 
 ## Features
@@ -59,11 +59,6 @@ To run the application, you simply need to run the `app.py` script in this repos
 - **Frontend:** The user interface is designed using HTML, CSS, and JavaScript to ensure a smooth and intuitive user experience.
 
 - **Database:** The application employs an Azure SQL Database as its database system to store order-related data.
-
-## Contributors 
-
-- [Tobi Sobola](https://github.com/tobiy105)
-- [Maya Iuga](https://github.com/maya-a-iuga)
 
 ## Feature Reversion
 
@@ -394,6 +389,11 @@ By storing these secrets in Azure Key Vault, we enhance the security of our appl
 ![UML Diagram](asserts/UML.png)
 
 The UML diagram provides an overview of the architecture and relationships within our application. It illustrates how different components, such as the web application, database, and Key Vault, interact with each other to ensure the secure and efficient operation of our system. The diagram helps us visualize the structure of our application and understand the flow of data and control between its various parts.
+
+## Contributors 
+
+- [Tobi Sobola](https://github.com/tobiy105)
+- [Maya Iuga](https://github.com/maya-a-iuga)
 
 ## License
 
