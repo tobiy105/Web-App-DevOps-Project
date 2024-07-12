@@ -2,22 +2,53 @@
 
 Welcome to the Web App DevOps Project repo! This application allows you to efficiently manage and track orders for a potential business. It provides an intuitive user interface for viewing existing orders and adding new ones.
 
+I wanted to understand more about devops and creating pipelines which is why I undertook this project where I will be taking a simple web application and creating an end-to-end devops pipeline for it.
+
 ## Table of Contents
 
+- [Architecture](#architecture)
+- [Web Application](#web-application)
 - [Features](#features)
-- [Getting Started](#getting-started)
-- [Technology Stack](#technology-stack)
-- [Contributors](#contributors)
-- [Feature Reversion](#feature-reversion)
-- [Dockerization](#dockerization)
-- [Networking Services with Terraform](#networking-services-with-terraform)
-- [Provisioning an Azure Kubernetes Service (AKS) Cluster](#provisioning-an-azure-kubernetes-service-aks-cluster)
-- [Kubernetes Deployment](#kubernetes-deployment)
-- [Distributing the Application](#distributing-the-application)
-- [Monitoring Strategy for AKS Cluster](#monitoring-strategy-for-aks-cluster)
-- [License](#license)
+- [Git](#git)
+- [Docker](#docker)
+- [Terraform](#terraform)
+- [Kubernetes](#kubernetes)
+- [Monitoring](#monitoring)
+- [Security](#security-azure-key-vault)
 
-## Features
+## Architecture
+Here is the architecture I propose:
+
+![Architure Diagram](asserts/DevOps-Pipeline-Architecture.png)
+
+### UML Diagram
+The UML diagram provides an overview of the architecture and relationships within our application. It illustrates how different components, such as the web application, database, and Key Vault, interact with each other to ensure the secure and efficient operation of our system. The diagram helps us visualize the structure of our application and understand the flow of data and control between its various parts.
+
+![UML Diagram](asserts/UML.png)
+
+## Project Tools
+Here are the features and tools for this project:
+
+- Azure
+- Terraform
+- Git
+- Docker
+- Kuberentes
+- Monitoring
+- Securitry (Key Vault)
+
+## Web Application
+
+### Prerequisites
+
+For the application to successfully run, you need to install the following packages:
+
+- flask (version 2.2.2)
+- pyodbc (version 4.0.39)
+- SQLAlchemy (version 2.0.21)
+- werkzeug (version 2.2.3)
+
+### Features
 
 - **Order List:** View a comprehensive list of orders including details like date UUID, user ID, card number, store code, product code, product quantity, order date, and shipping date.
   
@@ -33,17 +64,6 @@ Welcome to the Web App DevOps Project repo! This application allows you to effic
 
 - **Data Validation:** Ensure data accuracy and completeness with required fields, date restrictions, and card number validation.
 
-## Getting Started
-
-### Prerequisites
-
-For the application to successfully run, you need to install the following packages:
-
-- flask (version 2.2.2)
-- pyodbc (version 4.0.39)
-- SQLAlchemy (version 2.0.21)
-- werkzeug (version 2.2.3)
-
 ### Usage
 
 To run the application, you simply need to run the `app.py` script in this repository. Once the application starts you should be able to access it locally at `http://127.0.0.1:5000`. Here you will be meet with the following two pages:
@@ -52,7 +72,7 @@ To run the application, you simply need to run the `app.py` script in this repos
 
 2. **Add New Order Page:** Click on the "Add New Order" tab to access the order form. Complete all required fields and ensure that your entries meet the specified criteria.
 
-## Technology Stack
+### Technology Stack
 
 - **Backend:** Flask is used to build the backend of the application, handling routing, data processing, and interactions with the database.
 
@@ -60,12 +80,10 @@ To run the application, you simply need to run the `app.py` script in this repos
 
 - **Database:** The application employs an Azure SQL Database as its database system to store order-related data.
 
-## Contributors 
+## GIT
+Add a small intro to state that you are using git and github for version control and repo.
 
-- [Tobi Sobola](https://github.com/tobiy105)
-- [Maya Iuga](https://github.com/maya-a-iuga)
-
-## Feature Reversion
+### Feature Reversion
 
 While we initially added the "delivery_date" column to enhance our delivery tracking functionality, it has been determined that, for the current phase of our project, this feature is no longer necessary. However, software development is an evolving process, and there may be future requirements or scenarios where the "delivery_date" feature becomes relevant again.
 
@@ -87,7 +105,7 @@ As our project evolves, we prioritize adaptability and efficient development pro
 
 We encourage the team to keep an eye on project discussions and requirements, as the "delivery_date" feature may find its way back into our application in future iterations.
 
-## Dockerization
+## Docker
 
 Containerization is an essential aspect of our project, as it allows us to encapsulate the application, its dependencies, and configurations into a portable container. Docker containers provide consistency in deployment environments, making it easier to ensure that the application runs consistently across different platforms and environments. This approach simplifies the deployment, scaling, and maintenance of our application.
 
@@ -123,19 +141,38 @@ We specify the command to execute when the container launches, which is to run t
 
 Throughout the project, we have used various Docker commands for building, running containers, tagging, and pushing to Docker Hub. Here are some examples and explanations for each command:
 
-- `docker build -t my-flask-app .`: Builds a Docker image from the Dockerfile with the tag `my-flask-app`. The `.` specifies that the Dockerfile is in the current directory.
+- Builds a Docker image from the Dockerfile with the tag `my-flask-app`. The `.` specifies that the Dockerfile is in the current directory.
 
-- `docker run -p 8080:5000 my-flask-app`: Runs a container from the `my-flask-app` image, mapping port 8080 on the host to port 5000 in the container.
+  ```sh
+  docker build -t my-flask-app .
+  ```
 
-- `docker tag my-flask-app my-docker-hub-username/my-flask-app:v1`: Tags the `my-flask-app` image with a version `v1` and associates it with your Docker Hub repository.
+- Runs a container from the `my-flask-app` image, mapping port 8080 on the host to port 5000 in the container.
 
-- `docker push my-docker-hub-username/my-flask-app:v1`: Pushes the tagged image to your Docker Hub repository for sharing and deployment.
+```sh
+docker run -p 8080:5000 my-flask-app
+```
 
-## Networking Services with Terraform
+- Tags the `my-flask-app` image with a version `v1` and associates it with your Docker Hub repository.
+
+```sh
+docker tag my-flask-app my-docker-hub-username/my-flask-app:v1
+```
+
+- Pushes the tagged image to your Docker Hub repository for sharing and deployment.
+
+```sh
+docker push my-docker-hub-username/my-flask-app:v1
+```
+
+## Terraform 
+Have a little intro on the importance of terraform.
+
+### Networking Services with Terraform
 
 Thoroughly documenting the process of defining networking services using Infrastructure as Code (IaC) is crucial for understanding and maintaining your project. This section provides an overview of the steps taken to define networking resources using Terraform within this project, including details on each resource, its purpose, and any dependencies. It also covers the input and output variables used throughout the networking module.
 
-### Terraform Networking Module
+### Networking Module
 
 In this project, we use Terraform to provide Azure networking services for an Azure Kubernetes Service (AKS) cluster. These services include:
 
@@ -159,27 +196,9 @@ In this project, we use Terraform to provide Azure networking services for an Az
    - Purpose: To control inbound and outbound traffic to resources within the VNet.
    - Inbound Rules: Allow traffic to kube-apiserver (port 443) and inbound SSH traffic (port 22) from the specified public IP address.
 
-### Input and Output Variables
-
-Throughout the networking module, we utilize input and output variables to configure and communicate with the module.
-
-**Input Variables**:
-
-- `resource_group_name`: Represents the name of the Azure Resource Group where networking resources will be deployed.
-- `location`: Specifies the Azure region where networking resources will be deployed.
-- `vnet_address_space`: Specifies the address space for the Virtual Network (VNet).
-
-**Output Variables**:
-
-- `vnet_id`: Stores the ID of the created Virtual Network (VNet) for use in other modules.
-- `control_plane_subnet_id`: Holds the ID of the control plane subnet within the VNet.
-- `worker_node_subnet_id`: Stores the ID of the worker node subnet within the VNet.
-- `networking_resource_group_name`: Provides the name of the Azure Resource Group for networking resources.
-- `aks_nsg_id`: Stores the ID of the Network Security Group (NSG) for security rule enforcement.
-
 By documenting these details and variables, we ensure that the networking module's configuration and purpose are well-understood, facilitating collaboration and maintenance as the project evolves.
 
-## Provisioning an Azure Kubernetes Service (AKS) Cluster
+### Azure Kubernetes Service (AKS) Cluster Module
 
 This section provides an overview of the process of provisioning an Azure Kubernetes Service (AKS) cluster using Infrastructure as Code (IaC). We use Terraform to automate the provisioning of the AKS cluster and its associated resources.
 
@@ -203,9 +222,10 @@ This section provides an overview of the process of provisioning an Azure Kubern
 
 9. **Access the AKS Cluster**: Utilize the captured kubeconfig file to interact with and manage the provisioned AKS cluster using `kubectl`. You can access and manage your cluster, deploy applications, and scale resources as needed.
 
-## Kubernetes Deployment
+## Kubernetes
 
 In addition to deploying our application using Kubernetes, we've also defined a Kubernetes Service to enable seamless access to our deployed application. The Kubernetes Service allows internal communication within the AKS cluster by routing traffic to the appropriate pods. In our case, it exposes port 80 for internal communication, ensuring that our application is easily accessible within the cluster.
+
 
 ### Deployment and Service Manifests
 
@@ -231,6 +251,10 @@ We have created Kubernetes Deployment and Service manifests to deploy your conta
 We've chosen the RollingUpdate deployment strategy for its benefits in maintaining application availability during updates. This strategy allows us to deploy a new version of the application while ensuring that a maximum of one pod deploys at a time, and one pod becomes temporarily unavailable. This approach minimizes potential disruptions to user access and maintains service reliability.
 
 ### Testing and Validation
+Post-deployment, we conducted several tests to validate the functionality and reliability of the application within the AKS cluster using the following commands:
+
+Merge Cluster: Ensure that the AKS cluster has been merged to your local .kube file such that you can have access to it.
+az aks get-credentials --resource-group [resource_group_name] --name [aks_cluster_name]
 
 After deploying the application to the AKS cluster, we conducted rigorous testing and validation to ensure its functionality and reliability. Our testing process included:
 
@@ -239,6 +263,7 @@ After deploying the application to the AKS cluster, we conducted rigorous testin
 - Validation of data accuracy and completeness, including required fields, date restrictions, and card number validation.
 
 Our testing procedures aimed to identify and address any issues promptly, ensuring a robust and dependable deployment.
+
 
 ## Distributing the Application
 
@@ -250,8 +275,9 @@ The application we've been developing is an internal tool designed for the compa
 
    ```bash
    kubectl port-forward <pod-name> 5000:5000
+   ```
 
-## Monitoring Strategy for AKS Cluster
+## Monitoring
 
 Monitoring your Azure Kubernetes Service (AKS) cluster is essential for ensuring its performance, reliability, and availability. We have implemented a comprehensive monitoring strategy that includes the following components:
 
@@ -341,7 +367,7 @@ We have set up alert rules to trigger alarms when specific conditions are met:
 
 By following these monitoring and alerting strategies, we ensure the optimal performance, reliability, and availability of our AKS cluster. In case of alarms trigger, we have predefined procedures and strategies to respond effectively and maintain operational efficiency.
 
-## Azure Key Vault Setup
+## Security (Azure Key Vault)
 
 Azure Key Vault plays a pivotal role in securing sensitive information within our application. It provides a secure and centralized location to store and manage secrets, keys, and certificates. By integrating our application with Azure Key Vault, we ensure that critical information such as database connection details and authentication tokens are safeguarded against unauthorized access. This enhances the overall security posture of our application.
 
@@ -358,21 +384,20 @@ Azure Key Vault plays a pivotal role in securing sensitive information within ou
 
 We have securely stored the following secrets in Azure Key Vault to protect the credentials required for the application to connect to the backend database:
 
-- **Secret Name: `ServerName`**
-  - **Usage**: This secret contains the server name or host of the backend database. It is used by the application to establish a connection to the database server. The server name is retrieved from Key Vault during runtime to ensure the security of the database connection.
+**Secrets:**
 
-- **Secret Name: `ServerUsername`**
-  - **Usage**: The `ServerUsername` secret holds the username or login credentials required to access the database server. The application retrieves this username from Key Vault when authenticating with the database.
+- **`ServerName`** This secret contains the server name or host of the backend database. It is used by the application to establish a connection to the database server. The server name is retrieved from Key Vault during runtime to ensure the security of the database connection.
 
-- **Secret Name: `ServerPassword`**
-  - **Usage**: This secret stores the database server's password, which is necessary for secure access. The application fetches this password from Key Vault during runtime to ensure sensitive credentials are protected.
+- **`ServerUsername`** The secret holds the username or login credentials required to access the database server. The application retrieves this username from Key Vault when authenticating with the database.
 
-- **Secret Name: `DatabaseName`**
-  - **Usage**: The `DatabaseName` secret contains the name of the specific database that the application needs to interact with. It is retrieved from Key Vault during application runtime to specify the target database.
+- **`ServerPassword`** This secret stores the database server's password, which is necessary for secure access. The application fetches this password from Key Vault during runtime to ensure sensitive credentials are protected.
+
+- **`DatabaseName`** The secret contains the name of the specific database that the application needs to interact with. It is retrieved from Key Vault during application runtime to specify the target database.
 
 By storing these secrets in Azure Key Vault, we enhance the security of our application by keeping sensitive information separate from the codebase and ensuring secure retrieval when needed. This approach helps protect our database credentials from unauthorized access and potential security breaches.
 
 ## AKS Integration with Key Vault
+include an intro section.
 
 ### Managed Identity for AKS
 - **Managed Identity Name**: [Managed Identity Name]
@@ -383,17 +408,21 @@ By storing these secrets in Azure Key Vault, we enhance the security of our appl
 
 ### Integration Steps
 - Describe the process of setting up a managed identity for your AKS cluster.
-- Explain the steps taken to assign permissions to the managed identity, ensuring it has the necessary access to retrieve secrets from Azure Key Vault.
 
-## Application Code Modifications
+```sh
+
+```
+
+- Explain the steps taken to assign permissions to the managed identity, ensuring it has the necessary access to retrieve secrets from Azure Key Vault.
 
 ### Utilizing Managed Identity Credentials
 - Mention the modifications made to the application code to incorporate managed identity credentials for the secure retrieval of database connection details from Azure Key Vault.
 
-## UML Diagram
-![UML Diagram](asserts/UML.png)
+## Contributors 
 
-The UML diagram provides an overview of the architecture and relationships within our application. It illustrates how different components, such as the web application, database, and Key Vault, interact with each other to ensure the secure and efficient operation of our system. The diagram helps us visualize the structure of our application and understand the flow of data and control between its various parts.
+- [Tobi Sobola](https://github.com/tobiy105)
+- [Maya Iuga](https://github.com/maya-a-iuga)
+
 
 ## License
 

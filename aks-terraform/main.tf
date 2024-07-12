@@ -5,8 +5,8 @@ provider "azurerm" {
   features {}
   client_id     = var.client_id
   client_secret = var.client_secret
-  subscription_id = "0ebbba45-beb2-4c3a-ae53-2fbb98fc09cc"
-  tenant_id = "47d4542c-f112-47f4-92c7-a838d8a5e8ef"
+  subscription_id = var.subscription_id
+  tenant_id = var.tenant_id
 }
 
 # Include networking module
@@ -37,16 +37,4 @@ module "aks_cluster" {
   worker_node_subnet_id       = module.networking.worker_node_subnet_id
   aks_nsg_id                  = module.networking.aks_nsg_id
   # Include other input variables as needed by the cluster module
-}
-
-# Output variables for reference or further use
-output "aks_cluster_name" {
-  description = "Name of the provisioned AKS cluster"
-  value       = module.aks_cluster.aks_cluster_name
-}
-
-output "aks_kubeconfig" {
-  description = "Kubeconfig for the provisioned AKS cluster"
-  value       = module.aks_cluster.aks_kubeconfig
-  sensitive = true
 }

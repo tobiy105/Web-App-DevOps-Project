@@ -16,7 +16,7 @@ steps:
     containerRegistry: 'Docker Hub'
     repository: 'tobiy105/Web-App-DevOps-Project'
     command: 'buildAndPush'
-    Dockerfile: '**/dockerfile'
+    Dockerfile: '**/Dockerfile'
     tags: 'latest'
 
 - task: KubernetesManifest@1

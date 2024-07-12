@@ -12,6 +12,18 @@ variable "client_secret" {
   sensitive = true
 }
 
+variable "subscription_id" {
+  description = "Subscription ID for the provider"
+  type        = string
+  
+}
+
+variable "tenant_id" {
+  description = "Tenant ID for the provider"
+  type        = string
+  
+}
+
 
 variable "service_principal_client_id" {
   description = "Client ID for the service principal associated with the cluster"
